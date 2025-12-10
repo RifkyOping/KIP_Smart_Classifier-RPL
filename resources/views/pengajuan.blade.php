@@ -100,10 +100,9 @@
                         <!-- IPK -->
                         <div>
                             <label class="text-sm font-medium">IPK *</label>
-                            <input type="number" name="ipk" class="w-full mt-1 border rounded-lg px-3 py-2"
-                                placeholder="Masukkan IPK terakhir">
+                            <input type="number" name="ipk" step="0.01" min="0.00" max="4.00"
+                                class="w-full mt-1 border rounded-lg px-3 py-2" placeholder="Masukkan IPK terakhir">
                         </div>
-
 
                     </div>
                 </div>

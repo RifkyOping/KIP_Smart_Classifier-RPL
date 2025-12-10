@@ -22,6 +22,8 @@ class Submission extends Controller
             'kip'             => 'required|string',
             'pendapatan'      => 'required|string',
             'tanggungan'      => 'required|integer',
+            // --- PERBAIKAN 1: TAMBAHKAN VALIDASI IPK ---
+            'ipk'             => 'required|numeric|min:0.00|max:4.00', // IPK harus diisi, numerik, dan dalam rentang 0.00-4.00
 
             'transkrip'       => 'required|mimes:pdf,jpg,jpeg,png|max:5120',
             'sktm'            => 'nullable|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -39,16 +41,19 @@ class Submission extends Controller
             : null;
 
         // FITUR UNTUK NAIVE BAYES (FORMAT HARUS SAMA DENGAN TRAINING)
+        // Berdasarkan NaiveBayesService, fitur yang dibutuhkan adalah: pendapatan, prestasi, ipk, dan tanggungan.
         $fitur = [
-            'pendapatan' => $request->pendapatan,          // pastikan training juga memakai format sama
-            'tanggungan' => $request->tanggungan,
-            'kip'        => $request->kip,
-            'prestasi'   => $request->prestasi ? 'Ada' : 'Tidak Ada',  // konsisten!
+            'pendapatan' => $request->pendapatan,
+            // --- PERBAIKAN 2: TAMBAHKAN IPK & PERBAIKI KIP/PRESTASI ---
+            'ipk'        => (float)$request->ipk, // Pastikan tipe data float untuk Gaussian
+            'tanggungan' => (int)$request->tanggungan, // Pastikan tipe data int/float untuk Gaussian
+            'prestasi'   => $request->prestasi ? 'Ada' : 'Tidak Ada', // konsisten dengan logika sebelumnya
         ];
+        // Catatan: 'kip' dihapus dari fitur model karena model NaiveBayesService hanya menggunakan 4 fitur (pendapatan, prestasi, ipk, tanggungan).
 
         // PREDIKSI NAIVE BAYES
         $bayes = new NaiveBayesService();
-        $statusHasil = $bayes->classify($fitur); // menghasilkan "Diterima" / "Ditolak"
+        $statusHasil = $bayes->classify($fitur); // menghasilkan "Diterima" / "Ditolak" / "Menunggu"
 
         // SIMPAN DATA
         ModelsSubmission::create([
@@ -60,15 +65,16 @@ class Submission extends Controller
             'angkatan'        => $request->angkatan,
             'kip'             => $request->kip,
 
+            // --- PERBAIKAN 3: TAMBAHKAN IPK KE ARRAY INSERT ---
+            'ipk'             => $request->ipk,
+
             'pendapatan'      => $request->pendapatan,
             'tanggungan'      => $request->tanggungan,
 
             'transkrip'       => $transkrip,
             'sktm'            => $sktm,
 
-            // HARUS SAMA DENGAN FITUR
             'prestasi'        => $request->prestasi ? 'Ada' : 'Tidak Ada',
-
             'bukti_prestasi'  => $buktiPrestasi,
 
             // STATUS DARI ALGORITMA NAIVE BAYES
@@ -94,7 +100,14 @@ class Submission extends Controller
 
     public function cek()
     {
-        $userId = Auth::user()->mahasiswa->id;
+        // Pastikan Anda menangani kasus jika 'mahasiswa' atau 'id' tidak ada
+        $mahasiswa = Auth::user()->mahasiswa ?? null;
+        if (!$mahasiswa) {
+             // Handle case: User logged in but no associated mahasiswa record (misalnya redirect ke halaman profil)
+             return redirect('/')->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+
+        $userId = $mahasiswa->id;
         $submission = ModelsSubmission::where('mahasiswas_id', $userId)->first();
         return view('pengajuan', compact('submission'));
     }

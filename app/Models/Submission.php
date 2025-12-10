@@ -16,6 +16,7 @@ class Submission extends Model
         'fakultas',
         'semester',
         'angkatan',
+        'ipk',
         'kip',
         'pendapatan',
         'tanggungan',
