@@ -3,16 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Submission extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'mahasiswas_id',
-        'penhasilan_orangtua',
-        'jumlah_tanggungan',
-        'no_akunkip',
-        'prestasi',
+        'nama',
+        'nim',
+        'prodi',
+        'fakultas',
+        'semester',
+        'angkatan',
+        'kip',
+        'pendapatan',
+        'tanggungan',
+        'transkrip',
         'sktm',
-        'status  ',
+        'prestasi',
+        'bukti_prestasi',
+        'status',
+        'mahasiswas_id',
     ];
+    protected static function newFactory()
+    {
+        return \Database\Factories\DataTrainingFactory::new();
+    }
 }

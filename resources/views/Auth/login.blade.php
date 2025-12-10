@@ -6,9 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KIP Smart Classifier - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gradient-to-b from-blue-50 to-white min-h-screen flex items-center justify-center">
+
+    @if (session('success'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                        confirmButtonColor: '#3085d6',
+                    });
+                </script>
+            @endif
+
+            @if (session('error'))
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan!',
+                        text: '{{ session('error') }}',
+                        confirmButtonColor: '#d33',
+                    });
+                </script>
+            @endif
+
+            @if ($errors->any())
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validasi Gagal!',
+                        html: `{!! implode('<br>', $errors->all()) !!}`,
+                        confirmButtonColor: '#d33',
+                    });
+                </script>
+            @endif
 
     <div class="w-full max-w-md bg-grey shadow-xl rounded-2xl p-8">
         <div class="flex flex-col items-center mb-6">

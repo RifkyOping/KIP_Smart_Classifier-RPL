@@ -22,4 +22,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(User::class, 'users_id');
     }
+
+    public function submission()
+    {
+        return $this->hasOne(Submission::class, 'mahasiswas_id');
+    }
 }

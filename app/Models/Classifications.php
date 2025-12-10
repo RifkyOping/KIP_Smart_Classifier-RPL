@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Classifications extends Model
+{
+    protected $fillable = [
+        'hasil',
+    ];
+}

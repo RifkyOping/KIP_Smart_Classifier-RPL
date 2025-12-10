@@ -97,9 +97,15 @@
                     <label class="block font-medium text-gray-700 mb-1">Fakultas</label>
                     <select id="fakultas" name="fakultas" class="w-full bg-gray-100 border rounded-lg px-3 py-2">
                         <option value="">Pilih Fakultas</option>
-                        <option value="teknik">Fakultas Teknik</option>
-                        <option value="kedokteran">Fakultas Kedokteran</option>
-                        <option value="ekonomi">Fakultas Ekonomi</option>
+                        <option value="Teknik">Fakultas Teknik</option>
+                        <option value="Kedokteran">Fakultas Kedokteran</option>
+                        <option value="Ekonomi">Fakultas Ekonomi</option>
+                        <option value="Pertanian Dan kehutanan">Fakultas Pertanian Dan kehutanan</option>
+                        <option value="Peternakan dan Perikanan">Fakultas Peternakan dan Perikanan</option>
+                        <option value="Ilmu Kesehatan">Fakultas Ilmu Kesehatan</option>
+                        <option value="Ilmu Sosial dan Ilmu Politik">Fakultas Ilmu Sosial dan Ilmu Politik</option>
+                        <option value="Keguruan dan Ilmu Pendidikan">Fakultas Keguruan dan Ilmu Pendidikan</option>
+                        <option value="Matematika dan Ilmu Pengetahuan Alam">Fakultas Matematika dan Ilmu Pengetahuan Alam</option>
                     </select>
                 </div>
 
@@ -162,9 +168,15 @@
 
     <script>
         const prodiByFakultas = {
-            teknik: ["Informatika", "Sistem Informasi", "Teknik Sipil", "Perencanaan Wilayah dan Kota"],
-            kedokteran: ["Pendidikan Dokter", "Profesi Dokter", "Kesehatan Masyarakat"],
-            ekonomi: ["Manajemen", "Akuntansi", "Ekonomi Pembangunan"]
+            "Teknik": ["Informatika", "Sistem Informasi", "Teknik Sipil", "Perencanaan Wilayah dan Kota", "Arsitektur"],
+            "Kedokteran": ["Kedokteran"],
+            "Ekonomi": ["Manajemen", "Akuntansi", "Bisnis Digital"],
+            "Pertanian Dan kehutanan": ["Agribisnis", "Agreokoteknologi", "Kehutanan", "Teknologi Hasil Pertanian"],
+            "Peternakan dan Perikanan": ["Akuakultur", "Perikanan Tangkap", "Peternakan", "Sumber Daya Akuatik"],
+            "Ilmu Kesehatan": ["Administrasi Kesehatan", "Gizi", "Keperawatan", "Keselamatan & Kesehatan Kerja"],
+            "Ilmu Sosial dan Ilmu Politik": ["Ilmu Politik", "Hukum", "Hubungan Internasional"],
+            "Keguruan dan Ilmu Pendidikan": ["Pendidikan bahasa Inggris", "Pendidikan Biologi", "Pendidikan Fisika", "Pendidikan Guru Sekolah Dasar", "Pendidikan Ilmua Pengetahuan Alam", "Pendidikan Matematika", "Pendidikan Teknologi Informasi"],
+            "Matematika dan Ilmu Pengetahuan Alam": ["Matematika", "Statistika", "Bioteknologi", "Ilmu Aktuaria"],
         };
 
         document.getElementById('fakultas').addEventListener('change', function() {

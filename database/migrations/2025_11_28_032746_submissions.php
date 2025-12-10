@@ -13,12 +13,20 @@ return new class extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
-            $table->integer('penghasilan_orangtua');
-            $table->integer('jumlah_tanggungan');
-            $table->integer('no_akunkip');
-            $table->date('tanggal');
-            $table->String('prestasi');
-            $table->String('sktm');
+            $table->string('nama');
+            $table->string('nim');
+            $table->string('prodi');
+            $table->string('fakultas');
+            $table->string('semester');
+            $table->string('angkatan');
+            $table->decimal('ipk');
+            $table->string('kip');
+            $table->string('pendapatan');
+            $table->integer('tanggungan');
+            $table->string('transkrip');
+            $table->string('sktm')->nullable();
+            $table->string('prestasi')->nullable();
+            $table->string('bukti_prestasi')->nullable();
             $table->enum('status', ['Menunggu', 'Diterima', 'Ditolak'])->default('Menunggu');
             $table->foreignId('mahasiswas_id')->constrained('mahasiswas')->onDelete('cascade');
             $table->timestamps();
@@ -27,6 +35,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        //
+        Schema::drop('submissions');
     }
 };

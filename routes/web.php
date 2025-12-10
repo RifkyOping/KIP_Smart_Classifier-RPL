@@ -1,46 +1,46 @@
 <?php
 
 use App\Http\Controllers\Authentication;
-use App\Models\User;
-use App\Models\Mahasiswa;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing\RouteRegistrar;
+use App\Http\Controllers\Submission;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Symfony\Component\Routing\Router;
-use Illuminate\Support\Facades\DB;
 
-Route::get('/', function () {
-    return view('Auth/login');
+// =============================
+// AUTH
+// =============================
+Route::middleware(['guest', 'prevent-back'])->group(function () {
+    Route::get('/', function () {
+        return view('Auth/login');
+    });
+
+    Route::post('/', [Authentication::class, 'login'])->name('login');
+    Route::get('/register', fn() => view('Auth/register'));
+    Route::post('/register', [Authentication::class, 'register'])->name('register');
+
 });
 
-Route::post('/login', [Authentication::class, 'login'])->name('login');
-
-Route::get('/register', function () {
-    return view('Auth/register');
+// =============================
+// MAHASISWA
+// =============================
+Route::middleware(['role:mahasiswa', 'prevent-back'])->group(function () {
+    Route::post('/pengajuan/store', [Submission::class, 'store'])->name('store');
+    Route::get('/pengajuan', [Submission::class, 'cek'])->name('batasPengajuan');
 });
 
-Route::post('/register', [Authentication::class, 'register'])->name('register');
-
-Route::post('/logout', [Authentication::class, 'logout'])->name('logout');
-
-Route::get('/beranda', function () {
-    return view('beranda');
+// =============================
+// ADMIN
+// =============================
+Route::middleware(['role:admin', 'prevent-back'])->group(function () {
+    Route::get('/admin/submissions', [Submission::class, 'adminIndex'])->name('admin.submissions');
+    Route::get('/admin/submissions/{id}', [Submission::class, 'adminShow'])->name('admin.submissions.show');
 });
 
-Route::get('/pengajuan', function () {
-    return view('pengajuan');
-});
-
-Route::get('/tentang', function () {
-    return view('tentang');
-});
-
-Route::get('/kontak', function () {
-    return view('kontak');
-});
-
-Route::get('/profil', function () {
-    return view('profil');
+// =============================
+// HALAMAN YANG WAJIB LOGIN
+// =============================
+Route::middleware(['auth', 'prevent-back'])->group(function () {
+    Route::get('/beranda', fn() => view('beranda'));
+    Route::get('/profil', fn() => view('profil'));
+    Route::get('/kontak', fn() => view('kontak'));
+    Route::get('/tentang', fn() => view('tentang'));
+    Route::post('/logout', [Authentication::class, 'keluar'])->name('logout');
 });

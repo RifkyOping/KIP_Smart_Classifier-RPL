@@ -1,7 +1,6 @@
 @extends('Layouts.master')
 
 @section('content')
-
     <!-- Hero Section -->
     <div class="bg-blue-600 text-white rounded-xl shadow p-10 text-center mb-10 mt-20">
 
@@ -18,11 +17,12 @@
         <p class="text-sm opacity-90">
             Platform untuk mengajukan dan memantau status beasiswa KIP Pengganti Anda
         </p>
-
-        <a href="/pengajuan"
-           class="mt-6 inline-flex items-center gap-2 bg-white text-blue-600 px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
-            <i class="bi bi-pencil-square"></i> Ajukan Beasiswa Sekarang
-        </a>
+        @if (Auth::user()->role == 'mahasiswa')
+            <a href="/pengajuan"
+                class="mt-6 inline-flex items-center gap-2 bg-white text-blue-600 px-5 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
+                <i class="bi bi-pencil-square"></i> Ajukan Beasiswa Sekarang
+            </a>
+        @endif
     </div>
 
     <!-- 2 Box Section -->
@@ -69,7 +69,8 @@
             <!-- Step 1 -->
             <div>
                 <div class="flex justify-center mb-3">
-                    <div class="bg-blue-100 text-blue-600 font-semibold w-12 h-12 flex items-center justify-center rounded-full text-lg">
+                    <div
+                        class="bg-blue-100 text-blue-600 font-semibold w-12 h-12 flex items-center justify-center rounded-full text-lg">
                         1
                     </div>
                 </div>
@@ -82,7 +83,8 @@
             <!-- Step 2 -->
             <div>
                 <div class="flex justify-center mb-3">
-                    <div class="bg-blue-100 text-blue-600 font-semibold w-12 h-12 flex items-center justify-center rounded-full text-lg">
+                    <div
+                        class="bg-blue-100 text-blue-600 font-semibold w-12 h-12 flex items-center justify-center rounded-full text-lg">
                         2
                     </div>
                 </div>
@@ -95,7 +97,8 @@
             <!-- Step 3 -->
             <div>
                 <div class="flex justify-center mb-3">
-                    <div class="bg-blue-100 text-blue-600 font-semibold w-12 h-12 flex items-center justify-center rounded-full text-lg">
+                    <div
+                        class="bg-blue-100 text-blue-600 font-semibold w-12 h-12 flex items-center justify-center rounded-full text-lg">
                         3
                     </div>
                 </div>
@@ -144,5 +147,4 @@
         </p>
         <p class="text-gray-500 text-sm mt-2">- Nelson Mandela</p>
     </div>
-
 @endsection

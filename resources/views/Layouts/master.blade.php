@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KIP Smart Classifier</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="bg-gray-100 flex">
@@ -15,11 +17,11 @@
         <div class="px-6 py-4 border-b border-gray-600 flex items-center space-x-3">
             <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-xl font-semibold">
                 @if (Auth::user()->role == 'mahasiswa')
-                    {{ substr(Auth::user()->mahasiswa->nama, 0, 1) }}
+                    {{ strtoupper(substr(Auth::user()->mahasiswa->nama, 0, 1)) }}
                 @elseif(Auth::user()->role == 'admin')
-                    {{ substr(Auth::user()->admin->nama, 0, 1) }}
+                    {{ strtoupper(substr(Auth::user()->admin->nama, 0, 1)) }}
                 @else
-                    {{ substr(Auth::user()->email, 0, 1) }}
+                    {{ strtoupper(substr(Auth::user()->email, 0, 1)) }}
                 @endif
 
             </div>
@@ -56,17 +58,33 @@
                 <span class="text-white">Beranda</span>
             </a>
 
-            <a href="/pengajuan"
-                class="flex items-center px-4 py-2 rounded-lg gap-3 border border-blue-400 bg-blue-600 hover:bg-blue-700">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
-                    <path
-                        d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
-                    <path
-                        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
-                </svg>
-                <span class="text-white">Buat Pengajuan</span>
-            </a>
+            @if (Auth::user()->role == 'mahasiswa')
+                <a href="/pengajuan"
+                    class="flex items-center px-4 py-2 rounded-lg gap-3 border border-blue-400 bg-blue-600 hover:bg-blue-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                        <path
+                            d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                    </svg>
+                    <span class="text-white">Buat Pengajuan</span>
+                </a>
+            @else
+                <a href="{{ route('admin.submissions') }}"
+                    class="flex items-center px-4 py-2 rounded-lg gap-3 border border-blue-400 bg-blue-600 hover:bg-blue-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-clipboard2-data" viewBox="0 0 16 16">
+                        <path
+                            d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z" />
+                        <path
+                            d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z" />
+                        <path
+                            d="M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1" />
+                    </svg>
+                    <span class="text-white">Data Pengajuan</span>
+                </a>
+            @endif
 
             <a href="/profil"
                 class="flex items-center px-4 py-2 rounded-lg gap-3 border border-blue-400 bg-blue-600 hover:bg-blue-700">
@@ -112,6 +130,41 @@
 
         {{-- KONTEN --}}
         <main class="p-10">
+
+            @if (session('success'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                        confirmButtonColor: '#3085d6',
+                    });
+                </script>
+            @endif
+
+            @if (session('error'))
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan!',
+                        text: '{{ session('error') }}',
+                        confirmButtonColor: '#d33',
+                    });
+                </script>
+            @endif
+
+            @if ($errors->any())
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validasi Gagal!',
+                        html: `{!! implode('<br>', $errors->all()) !!}`,
+                        confirmButtonColor: '#d33',
+                    });
+                </script>
+            @endif
+
+
             @yield('content')
         </main>
 

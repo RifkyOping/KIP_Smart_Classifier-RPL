@@ -27,7 +27,7 @@ class Authentication extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('/beranda');
+            return redirect('/beranda')->with('success', 'Berhasil Login');
         }
 
         return back()->withErrors([
@@ -89,7 +89,7 @@ class Authentication extends Controller
             'password' => $request->password
         ]);
 
-        return redirect('/beranda');
+        return redirect('/beranda')->with('success', 'Akun Berhasil Dibuat');
     }
 
     public function keluar(Request $request)
@@ -98,6 +98,6 @@ class Authentication extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Berhasil Logout');
     }
 }
